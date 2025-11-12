@@ -381,6 +381,12 @@
               type="checkbox"
               v-model="form.presentation.has_linkedin_link" />
           </div>
+          <div class="check-row">
+            <div>Student has added Personal Website/Portfolio link</div>
+            <input
+              type="checkbox"
+              v-model="form.presentation.has_portfolio_link" />
+          </div>
         </div>
         <div
           v-if="showSectionComment('presentation')"
@@ -883,6 +889,7 @@
           has_github_link: false,
           has_coding_platform_link: false,
           has_linkedin_link: false,
+          has_portfolio_link: false,
           section_comment: '',
         },
         summary: {
@@ -1027,7 +1034,8 @@
                   this.form.presentation.full_lines &&
                   this.form.presentation.has_github_link &&
                   this.form.presentation.has_coding_platform_link &&
-                  this.form.presentation.has_linkedin_link
+                  this.form.presentation.has_linkedin_link &&
+                  this.form.presentation.has_portfolio_link
                 )
 
                 return presentationFieldsComplete
@@ -1138,7 +1146,8 @@
                   !this.form.presentation.full_lines ||
                   !this.form.presentation.has_github_link ||
                   !this.form.presentation.has_coding_platform_link ||
-                  !this.form.presentation.has_linkedin_link
+                  !this.form.presentation.has_linkedin_link ||
+                  !this.form.presentation.has_portfolio_link
                 )
 
               case 'summary':
