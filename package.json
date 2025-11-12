@@ -1,0 +1,22 @@
+{
+  "name": "resume-checklist",
+  "version": "1.0.0",
+  "description": "A streamlined, single-page application for conducting thorough resume reviews with structured feedback.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krushndayshmookh/resume-checklist.git"
+  },
+  "author": "Krushn Dayshmookh <krushndayshmookh@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krushndayshmookh/resume-checklist/issues"
+  },
+  "homepage": "https://github.com/krushndayshmookh/resume-checklist#readme",
+  "dependencies": {
+    "googleapis": "^166.0.0"
+  }
+}
