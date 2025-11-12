@@ -443,7 +443,7 @@
         </div>
         <div class="grid">
           <div class="check-row">
-            <div>College, CGPA, graduation year highlighted</div>
+            <div>College, CGPA, College enrollement should be 2024-</div>
             <input type="checkbox" v-model="form.education.highlighted" />
           </div>
           <div class="check-row">
@@ -618,7 +618,7 @@
           </div>
           <div class="check-row">
             <div>
-              Has outcomes/impact mentioned
+              Has outcomes/impact mentioned with numbers
               <span style="font-size: 12px; color: var(--muted)">
                 (e.g., "Improved page load time by 40%")</span
               >
@@ -852,7 +852,10 @@
           <span class="step-indicator">Final Step</span>
         </div>
         <div class="actions">
-          <button class="primary" @click="submitToSheets" :disabled="submitting">
+          <button
+            class="primary"
+            @click="submitToSheets"
+            :disabled="submitting">
             <span v-if="submitting">Submitting...</span>
             <span v-else>Submit to Google Sheets</span>
           </button>
@@ -865,8 +868,8 @@
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script>
-      const APP_SCRIPT_URL =
-        'https://script.google.com/macros/s/AKfycbzNELqQI1O0AaC2PQkGCQCmE4eM74rU7DAXKGWCVOhFN9A8RJbEUV0VJbLp59kBjCky/exec'
+      const API_ENDPOINT =
+        'https://resume-checklist.vercel.app/api/sheets-append'
 
       const emptyForm = () => ({
         student_name: '',
@@ -1202,14 +1205,14 @@
 
           async submitToSheets() {
             if (this.submitting) return
-            
+
             this.submitting = true
             const payload = {
               ...this.form,
               reviewer: this.reviewer,
             }
             try {
-              const res = await fetch(APP_SCRIPT_URL, {
+              const res = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
