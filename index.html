@@ -126,6 +126,10 @@
         border-radius: 8px;
         cursor: pointer;
       }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
       button.primary {
         background: var(--primary);
         color: white;
@@ -848,8 +852,9 @@
           <span class="step-indicator">Final Step</span>
         </div>
         <div class="actions">
-          <button class="primary" @click="submitToSheets">
-            Submit to Google Sheets
+          <button class="primary" @click="submitToSheets" :disabled="submitting">
+            <span v-if="submitting">Submitting...</span>
+            <span v-else>Submit to Google Sheets</span>
           </button>
           <button @click="downloadJSON">Download JSON</button>
           <button @click="resetForm">Reset</button>
@@ -861,7 +866,7 @@
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script>
       const APP_SCRIPT_URL =
-        'https://script.google.com/macros/s/AKfycby3KX7cbMLGGfTVI4Mx9be0MtL-VtFu-tWMhfhz8lR7rBiy9M78ePyuTg59yZ7l8CH8/exec'
+        'https://script.google.com/macros/s/AKfycbzNELqQI1O0AaC2PQkGCQCmE4eM74rU7DAXKGWCVOhFN9A8RJbEUV0VJbLp59kBjCky/exec'
 
       const emptyForm = () => ({
         student_name: '',
@@ -938,6 +943,7 @@
             currentStep: 0,
             completedSections: [],
             validationErrors: {},
+            submitting: false,
             sections: [
               'meta',
               'presentation',
@@ -1195,6 +1201,9 @@
           },
 
           async submitToSheets() {
+            if (this.submitting) return
+            
+            this.submitting = true
             const payload = {
               ...this.form,
               reviewer: this.reviewer,
@@ -1215,6 +1224,8 @@
               }
             } catch (e) {
               alert('Submission failed: ' + e.message)
+            } finally {
+              this.submitting = false
             }
           },
           downloadJSON() {
