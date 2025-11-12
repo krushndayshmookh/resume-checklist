@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Review Checklist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --fg: #111;
+        --muted: #666;
+        --primary: #0f62fe;
+        --border: #ddd;
+        --card: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      .container {
+        max-width: 980px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        margin: 12px 0;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .row-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      input[type='text'],
+      input[type='email'],
+      input[type='url'],
+      input[type='number'],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 76px;
+      }
+      input[type='checkbox'] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .hr {
+        height: 1px;
+        background: var(--border);
+        margin: 10px 0 16px;
+      }
+      .section-title {
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      .pill {
+        display: inline-block;
+        border: 1px solid var(--border);
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      .grid {
+        display: grid;
+        gap: 10px;
+      }
+      .check-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+      }
+      .right {
+        text-align: right;
+      }
+      .score {
+        width: 120px;
+      }
+      .footer {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 12px;
+      }
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 16px 0;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .flex {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .list {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        display: grid;
+        gap: 8px;
+      }
+      .list-item {
+        display: grid;
+        gap: 8px;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+      .ghost {
+        opacity: 0.66;
+      }
+      .success {
+        color: #138a36;
+      }
+      .warn {
+        color: #a15c00;
+      }
+      .error {
+        color: #b00020;
+      }
+      .section-disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
+      }
+      .section-locked {
+        opacity: 0.3;
+        pointer-events: none;
+        user-select: none;
+      }
+      .section-complete {
+        border-color: #138a36;
+      }
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .step-indicator {
+        font-size: 12px;
+        color: var(--muted);
+        background: var(--bg);
+        padding: 4px 10px;
+        border-radius: 12px;
+      }
+      .next-btn {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        margin-top: 16px;
+      }
+      .validation-error {
+        color: var(--error);
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 8px;
+        background: #ffeaea;
+        border-radius: 6px;
+      }
+      .section-complete {
+        color: var(--success);
+      }
+      .section-comment {
+        margin-top: 12px;
+        padding: 12px;
+        background: #fff4e6;
+        border: 1px solid #ffa500;
+        border-radius: 8px;
+      }
+      .section-comment label {
+        color: #a15c00;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .section-comment.comment-added {
+        background: #e6f4ea;
+        border-color: #138a36;
+      }
+      .button-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .button-group button {
+        min-width: 48px;
+        padding: 10px 16px;
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .button-group button:hover {
+        background: #f5f5f5;
+      }
+      .button-group button.selected {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      .button-negative.selected {
+        background: #b00020 !important;
+        color: white;
+        border-color: #b00020 !important;
+      }
+      .button-positive.selected {
+        background: #138a36 !important;
+        color: white;
+        border-color: #138a36 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="container">
+      <header>
+        <h1>Resume Review Checklist</h1>
+        <div class="hint">
+          Complete all items in each section • Autosaves locally
+        </div>
+      </header>
+
+      <!-- Meta -->
+      <section class="card" :class="getSectionClass(0)">
+        <div class="section-header">
+          <h2 class="section-title">Meta</h2>
+          <span class="step-indicator">Section 1</span>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Student Name</label
+            ><input
+              v-model="form.student_name"
+              type="text"
+              placeholder="e.g., Aarav Sharma" />
+          </div>
+          <div class="field">
+            <label>Student Email</label
+            ><input
+              v-model="form.student_email"
+              type="email"
+              placeholder="name@example.com" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Reviewed By</label
+            ><input v-model="reviewer" type="text" placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label>Page Count</label>
+            <select v-model="form.page_count">
+              <option value="">Select pages</option>
+              <option value="1">1 page</option>
+              <option value="2">2 pages</option>
+              <option value="3+">3+ pages</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Presentation -->
+      <section class="card" :class="getSectionClass(1)">
+        <div class="section-header">
+          <h2 class="section-title">Presentation</h2>
+          <span class="step-indicator">Section 2</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>No grammatical / spelling / punctuation errors</div>
+            <input type="checkbox" v-model="form.presentation.no_errors" />
+          </div>
+          <div class="check-row">
+            <div>All links open and no broken links</div>
+            <input type="checkbox" v-model="form.presentation.links_working" />
+          </div>
+          <div class="check-row">
+            <div>All links are blue and clickable</div>
+            <input type="checkbox" v-model="form.presentation.links_blue" />
+          </div>
+          <div class="check-row">
+            <div>Lines are almost full length and no half lines</div>
+            <input type="checkbox" v-model="form.presentation.full_lines" />
+          </div>
+          <div class="check-row">
+            <div>Student has added GitHub link</div>
+            <input
+              type="checkbox"
+              v-model="form.presentation.has_github_link" />
+          </div>
+          <div class="check-row">
+            <div>Student has added LeetCode/Codeforces link</div>
+            <input
+              type="checkbox"
+              v-model="form.presentation.has_coding_platform_link" />
+          </div>
+          <div class="check-row">
+            <div>Student has added LinkedIn link</div>
+            <input
+              type="checkbox"
+              v-model="form.presentation.has_linkedin_link" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('presentation')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.presentation.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.presentation.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <!-- Summary -->
+      <section class="card" :class="getSectionClass(2)">
+        <div class="section-header">
+          <h2 class="section-title">Professional Summary</h2>
+          <span class="step-indicator">Section 3</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>Concise (2–3 lines), relevant, outcome-oriented</div>
+            <div class="button-group">
+              <button
+                v-for="n in 5"
+                :key="'summary-'+n"
+                :class="{ selected: form.summary.concise_score === n }"
+                @click="form.summary.concise_score = n">
+                {{ n }}
+              </button>
+            </div>
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions problem-solving, open source, competitive programming
+            </div>
+            <input type="checkbox" v-model="form.summary.problem_open_cp" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('summary')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.summary.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.summary.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="card" :class="getSectionClass(3)">
+        <div class="section-header">
+          <h2 class="section-title">Education</h2>
+          <span class="step-indicator">Section 4</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>College, CGPA, graduation year highlighted</div>
+            <input type="checkbox" v-model="form.education.highlighted" />
+          </div>
+          <div class="check-row">
+            <div>Consistent date format (e.g., Jun 2024 – Present)</div>
+            <input type="checkbox" v-model="form.education.date_format" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('education')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.education.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.education.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="card" :class="getSectionClass(4)">
+        <div class="section-header">
+          <h2 class="section-title">Skills</h2>
+          <span class="step-indicator">Section 5</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>
+              Has Programming Languages: JS, TS, HTML, CSS, Python, SQL at
+              minimum
+            </div>
+            <input
+              type="checkbox"
+              v-model="form.skills.has_programming_languages" />
+          </div>
+          <div class="check-row">
+            <div>
+              Has Software Packages: Git, React, NodeJS, Express, Prisma at
+              minimum
+            </div>
+            <input
+              type="checkbox"
+              v-model="form.skills.has_software_packages" />
+          </div>
+          <div class="check-row">
+            <div>Mentions problem solving and data structures</div>
+            <input
+              type="checkbox"
+              v-model="form.skills.has_problem_solving_ds" />
+          </div>
+          <div class="check-row">
+            <div>Has added soft skills</div>
+            <input type="checkbox" v-model="form.skills.has_soft_skills" />
+          </div>
+          <div class="check-row">
+            <div>
+              No buzzwords or vague terms
+              <span style="font-size: 12px; color: var(--muted)">
+                (avoid: "AI/ML", "Blockchain", "Cloud" without context)</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.skills.no_buzzwords" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('skills')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.skills.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.skills.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="card" :class="getSectionClass(5)">
+        <div class="section-header">
+          <h2 class="section-title">Projects</h2>
+          <span class="step-indicator">Section 6</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>Project names highlighted; tech stack shown below</div>
+            <input type="checkbox" v-model="form.projects.has_project_names" />
+          </div>
+          <div class="check-row">
+            <div>
+              Project description follows sequence:
+              <ol
+                style="
+                  margin: 4px 0;
+                  padding-left: 20px;
+                  font-size: 13px;
+                  line-height: 1.5;
+                ">
+                <li>
+                  <strong>Problem statement:</strong> What issue does this
+                  project solve?
+                </li>
+                <li>
+                  <strong>How it works:</strong> Brief explanation of
+                  implementation/architecture
+                </li>
+                <li>
+                  <strong>Key features:</strong> Main functionalities and
+                  capabilities
+                </li>
+              </ol>
+            </div>
+            <div class="button-group">
+              <button
+                v-for="n in 5"
+                :key="'projects-'+n"
+                :class="{ selected: form.projects.sequence_score === n }"
+                @click="form.projects.sequence_score = n">
+                {{ n }}
+              </button>
+            </div>
+          </div>
+          <div class="check-row">
+            <div>Links provided (GitHub & demo)</div>
+            <input type="checkbox" v-model="form.projects.has_links" />
+          </div>
+          <div class="check-row">
+            <div>
+              Uses strong action verbs (built, created, developed, designed)
+              <span style="font-size: 12px; color: var(--muted)">
+                (avoid: "made")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.projects.strong_verbs" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('projects')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.projects.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.projects.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="card" :class="getSectionClass(6)">
+        <div class="section-header">
+          <h2 class="section-title">Experience / Internships</h2>
+          <span class="step-indicator">Section 7</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>Company, role, duration included</div>
+            <input
+              type="checkbox"
+              v-model="form.experience.has_basic_details" />
+          </div>
+          <div class="check-row">
+            <div>
+              Has learnings mentioned
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Learned React hooks and state management")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.experience.has_learnings" />
+          </div>
+          <div class="check-row">
+            <div>
+              Has outcomes/impact mentioned
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Improved page load time by 40%")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.experience.has_outcomes" />
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions soft skills demonstrated
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Collaborated with 5-member team using Agile")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.experience.has_soft_skills" />
+          </div>
+          <div class="check-row">
+            <div>
+              Uses strong action verbs (built, created, developed, designed)
+              <span style="font-size: 12px; color: var(--muted)">
+                (avoid: "made")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.experience.strong_verbs" />
+          </div>
+          <div class="check-row">
+            <div>
+              Overall description quality (clarity, relevance, professionalism)
+            </div>
+            <div class="button-group">
+              <button
+                v-for="n in 5"
+                :key="'experience-'+n"
+                :class="{ selected: form.experience.description_score === n }"
+                @click="form.experience.description_score = n">
+                {{ n }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('experience')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.experience.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.experience.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Achievements -->
+      <section class="card" :class="getSectionClass(7)">
+        <div class="section-header">
+          <h2 class="section-title">Achievements / Extracurricular</h2>
+          <span class="step-indicator">Section 8</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>
+              Mentions Competitive Programming
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Knight on LeetCode", "Specialist on Codeforces")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.achievements.mentions_cp" />
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions Open Source contributions
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Contributed to React.js", "Maintained npm
+                package")</span
+              >
+            </div>
+            <input
+              type="checkbox"
+              v-model="form.achievements.mentions_opensource" />
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions Competitions/Hackathons
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Won Smart India Hackathon", "Top 10 in Google Code
+                Jam")</span
+              >
+            </div>
+            <input
+              type="checkbox"
+              v-model="form.achievements.mentions_competitions" />
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions Volunteering/Club activities
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "DSA Club Member", "Led coding bootcamp for
+                juniors")</span
+              >
+            </div>
+            <input
+              type="checkbox"
+              v-model="form.achievements.mentions_volunteering" />
+          </div>
+          <div class="check-row">
+            <div>
+              Mentions Other relevant achievements
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "Published research paper", "Tech blog with 10K+
+                views")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.achievements.mentions_other" />
+          </div>
+          <div class="check-row">
+            <div>
+              Overall achievements quality (relevance, impact, presentation)
+            </div>
+            <div class="button-group">
+              <button
+                v-for="n in 5"
+                :key="'achievements-'+n"
+                :class="{ selected: form.achievements.overall_score === n }"
+                @click="form.achievements.overall_score = n">
+                {{ n }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('achievements')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.achievements.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.achievements.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Certificates & Links -->
+      <section class="card" :class="getSectionClass(8)">
+        <div class="section-header">
+          <h2 class="section-title">Certificates & Links</h2>
+          <span class="step-indicator">Section 9</span>
+        </div>
+        <div class="grid">
+          <div class="check-row">
+            <div>
+              Basic info included (name, authority, date, description)
+              <span style="font-size: 12px; color: var(--muted)">
+                (e.g., "AWS Certified Developer - Amazon - Jan 2024 - Cloud
+                development certification")</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.certs.has_basic_info" />
+          </div>
+          <div class="check-row">
+            <div>
+              Certificate links exist and are accessible
+              <span style="font-size: 12px; color: var(--muted)">
+                (Drive/GitHub with correct permissions)</span
+              >
+            </div>
+            <input type="checkbox" v-model="form.certs.links_work" />
+          </div>
+        </div>
+        <div
+          v-if="showSectionComment('certs')"
+          class="section-comment"
+          :class="{
+          'comment-added': form.certs.section_comment.length
+        }">
+          <label>Feedback for unchecked items or scores < 5:</label>
+          <textarea
+            v-model="form.certs.section_comment"
+            placeholder="Provide specific feedback and suggestions..."></textarea>
+        </div>
+      </section>
+
+      <!-- Communication & Consistency -->
+      <section class="card" :class="getSectionClass(9)">
+        <div class="section-header">
+          <h2 class="section-title">Communication & Consistency</h2>
+          <span class="step-indicator">Section 10</span>
+        </div>
+        <div class="field">
+          <label>Overall Impression (1-10)</label>
+          <div class="button-group">
+            <button
+              v-for="n in 10"
+              :key="'overall-'+n"
+              :class="{ selected: form.overall === n }"
+              @click="form.overall = n">
+              {{ n }}
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <div class="button-group">
+            <button
+              class="button-negative"
+              :class="{ selected: form.status === 'request_changes' }"
+              @click="form.status = 'request_changes'">
+              Request Changes
+            </button>
+            <button
+              class="button-positive"
+              :class="{ selected: form.status === 'approved' }"
+              @click="form.status = 'approved'">
+              Approved
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Mentor Comments / Suggestions (Required)</label>
+          <textarea
+            v-model="form.comments"
+            placeholder="Provide specific, actionable feedback..."
+            required></textarea>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <section class="card" :class="getSectionClass(10)">
+        <div class="section-header">
+          <h2 class="section-title">Submit Review</h2>
+          <span class="step-indicator">Final Step</span>
+        </div>
+        <div class="actions">
+          <button class="primary" @click="submitToSheets">
+            Submit to Google Sheets
+          </button>
+          <button @click="downloadJSON">Download JSON</button>
+          <button @click="resetForm">Reset</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
+    <script>
+      const APP_SCRIPT_URL =
+        'https://script.google.com/macros/s/AKfycby3KX7cbMLGGfTVI4Mx9be0MtL-VtFu-tWMhfhz8lR7rBiy9M78ePyuTg59yZ7l8CH8/exec'
+
+      const emptyForm = () => ({
+        student_name: '',
+        student_email: '',
+        page_count: '',
+        presentation: {
+          no_errors: false,
+          links_working: false,
+          links_blue: false,
+          full_lines: false,
+          has_github_link: false,
+          has_coding_platform_link: false,
+          has_linkedin_link: false,
+          section_comment: '',
+        },
+        summary: {
+          concise_score: null,
+          problem_open_cp: false,
+          section_comment: '',
+        },
+        education: {
+          highlighted: false,
+          date_format: false,
+          section_comment: '',
+        },
+        skills: {
+          has_programming_languages: false,
+          has_software_packages: false,
+          has_problem_solving_ds: false,
+          has_soft_skills: false,
+          no_buzzwords: false,
+          section_comment: '',
+        },
+        projects: {
+          has_project_names: false,
+          sequence_score: null,
+          has_links: false,
+          strong_verbs: false,
+          section_comment: '',
+        },
+        experience: {
+          has_basic_details: false,
+          has_learnings: false,
+          has_outcomes: false,
+          has_soft_skills: false,
+          strong_verbs: false,
+          description_score: null,
+          section_comment: '',
+        },
+        achievements: {
+          mentions_cp: false,
+          mentions_opensource: false,
+          mentions_competitions: false,
+          mentions_volunteering: false,
+          mentions_other: false,
+          overall_score: null,
+          section_comment: '',
+        },
+        certs: {
+          has_basic_info: false,
+          links_work: false,
+          section_comment: '',
+        },
+        overall: null,
+        status: 'request_changes',
+        comments: '',
+      })
+
+      const app = Vue.createApp({
+        data() {
+          return {
+            form: emptyForm(),
+            reviewer: localStorage.getItem('rrc_reviewer') || '',
+            currentStep: 0,
+            completedSections: [],
+            validationErrors: {},
+            sections: [
+              'meta',
+              'presentation',
+              'summary',
+              'education',
+              'skills',
+              'projects',
+              'experience',
+              'achievements',
+              'certs',
+              'comm',
+              'submit',
+            ],
+            saving: false,
+          }
+        },
+        computed: {
+          maxUnlockedSection() {
+            // Find the highest completed section
+            let max = 0
+            for (let i = 0; i < this.sections.length - 1; i++) {
+              if (this.isSectionComplete(i)) {
+                max = i + 1
+              } else {
+                break
+              }
+            }
+            return max
+          },
+        },
+        created() {
+          // restore saved form
+          const saved = localStorage.getItem('rrc_form')
+          if (saved) {
+            try {
+              this.form = JSON.parse(saved)
+            } catch (e) {}
+          }
+          // autosave
+          this.autosave = setInterval(() => {
+            localStorage.setItem('rrc_form', JSON.stringify(this.form))
+            localStorage.setItem('rrc_reviewer', this.reviewer || '')
+          }, 2000)
+        },
+        unmounted() {
+          clearInterval(this.autosave)
+        },
+        methods: {
+          getSectionClass(sectionIndex) {
+            // Sections up to maxUnlocked are accessible
+            // Future sections are locked
+            if (sectionIndex <= this.maxUnlockedSection) {
+              if (this.isSectionComplete(sectionIndex)) {
+                return 'section-complete' // Completed
+              }
+              return '' // Unlocked
+            }
+            return 'section-locked' // Locked
+          },
+
+          isSectionComplete(sectionIndex) {
+            const sectionName = this.sections[sectionIndex]
+
+            switch (sectionName) {
+              case 'meta':
+                return !!(
+                  this.form.student_name.trim() &&
+                  this.form.student_email.trim() &&
+                  this.reviewer.trim() &&
+                  this.form.page_count
+                )
+
+              case 'presentation':
+                const presentationFieldsComplete = !!(
+                  this.form.presentation.no_errors &&
+                  this.form.presentation.links_working &&
+                  this.form.presentation.links_blue &&
+                  this.form.presentation.full_lines &&
+                  this.form.presentation.has_github_link &&
+                  this.form.presentation.has_coding_platform_link &&
+                  this.form.presentation.has_linkedin_link
+                )
+
+                return presentationFieldsComplete
+                  ? presentationFieldsComplete
+                  : !!this.form.presentation.section_comment.trim()
+
+              case 'summary':
+                const summaryFieldsComplete = !!(
+                  this.form.summary.concise_score !== null &&
+                  this.form.summary.problem_open_cp
+                )
+
+                return summaryFieldsComplete
+                  ? summaryFieldsComplete
+                  : !!this.form.summary.section_comment.trim()
+
+              case 'education':
+                const educationFieldsComplete = !!(
+                  this.form.education.highlighted &&
+                  this.form.education.date_format
+                )
+
+                return educationFieldsComplete
+                  ? educationFieldsComplete
+                  : !!this.form.education.section_comment.trim()
+
+              case 'skills':
+                const skillsFieldsComplete = !!(
+                  this.form.skills.has_programming_languages &&
+                  this.form.skills.has_software_packages &&
+                  this.form.skills.has_problem_solving_ds &&
+                  this.form.skills.has_soft_skills &&
+                  this.form.skills.no_buzzwords
+                )
+
+                return skillsFieldsComplete
+                  ? skillsFieldsComplete
+                  : !!this.form.skills.section_comment.trim()
+
+              case 'projects':
+                const projectsFieldsComplete = !!(
+                  this.form.projects.has_project_names &&
+                  this.form.projects.sequence_score !== null &&
+                  this.form.projects.has_links &&
+                  this.form.projects.strong_verbs
+                )
+
+                return projectsFieldsComplete
+                  ? projectsFieldsComplete
+                  : !!this.form.projects.section_comment.trim()
+
+              case 'experience':
+                const experienceFieldsComplete = !!(
+                  this.form.experience.has_basic_details &&
+                  this.form.experience.has_learnings &&
+                  this.form.experience.has_outcomes &&
+                  this.form.experience.has_soft_skills &&
+                  this.form.experience.strong_verbs &&
+                  this.form.experience.description_score !== null
+                )
+
+                return experienceFieldsComplete
+                  ? experienceFieldsComplete
+                  : !!this.form.experience.section_comment.trim()
+
+              case 'achievements':
+                const achievementsFieldsComplete = !!(
+                  this.form.achievements.mentions_cp &&
+                  this.form.achievements.mentions_opensource &&
+                  this.form.achievements.mentions_competitions &&
+                  this.form.achievements.mentions_volunteering &&
+                  this.form.achievements.mentions_other &&
+                  this.form.achievements.overall_score !== null
+                )
+
+                return achievementsFieldsComplete
+                  ? achievementsFieldsComplete
+                  : !!this.form.achievements.section_comment.trim()
+
+              case 'certs':
+                const certsFieldsComplete = !!(
+                  this.form.certs.has_basic_info && this.form.certs.links_work
+                )
+
+                return certsFieldsComplete
+                  ? certsFieldsComplete
+                  : !!this.form.certs.section_comment.trim()
+
+              case 'comm':
+                return !!(
+                  this.form.overall !== null &&
+                  this.form.status &&
+                  this.form.comments.trim()
+                )
+            }
+
+            return false
+          },
+
+          showSectionComment(sectionName) {
+            // Show comment field if any checkbox is unchecked OR any score is missing OR any score < 5
+            switch (sectionName) {
+              case 'presentation':
+                return (
+                  !this.form.presentation.no_errors ||
+                  !this.form.presentation.links_working ||
+                  !this.form.presentation.links_blue ||
+                  !this.form.presentation.full_lines ||
+                  !this.form.presentation.has_github_link ||
+                  !this.form.presentation.has_coding_platform_link ||
+                  !this.form.presentation.has_linkedin_link
+                )
+
+              case 'summary':
+                return (
+                  this.form.summary.concise_score === null ||
+                  !this.form.summary.problem_open_cp ||
+                  this.form.summary.concise_score < 5
+                )
+
+              case 'education':
+                return (
+                  !this.form.education.highlighted ||
+                  !this.form.education.date_format
+                )
+
+              case 'skills':
+                return (
+                  !this.form.skills.has_programming_languages ||
+                  !this.form.skills.has_software_packages ||
+                  !this.form.skills.has_problem_solving_ds ||
+                  !this.form.skills.has_soft_skills ||
+                  !this.form.skills.no_buzzwords
+                )
+
+              case 'projects':
+                return (
+                  !this.form.projects.has_project_names ||
+                  this.form.projects.sequence_score === null ||
+                  !this.form.projects.has_links ||
+                  !this.form.projects.strong_verbs ||
+                  this.form.projects.sequence_score < 5
+                )
+
+              case 'experience':
+                return (
+                  !this.form.experience.has_basic_details ||
+                  !this.form.experience.has_learnings ||
+                  !this.form.experience.has_outcomes ||
+                  !this.form.experience.has_soft_skills ||
+                  !this.form.experience.strong_verbs ||
+                  this.form.experience.description_score === null ||
+                  this.form.experience.description_score < 5
+                )
+
+              case 'achievements':
+                return (
+                  !this.form.achievements.mentions_cp ||
+                  !this.form.achievements.mentions_opensource ||
+                  !this.form.achievements.mentions_competitions ||
+                  !this.form.achievements.mentions_volunteering ||
+                  !this.form.achievements.mentions_other ||
+                  this.form.achievements.overall_score === null ||
+                  this.form.achievements.overall_score < 5
+                )
+
+              case 'certs':
+                return (
+                  !this.form.certs.has_basic_info || !this.form.certs.links_work
+                )
+            }
+
+            return false
+          },
+
+          async submitToSheets() {
+            const payload = {
+              ...this.form,
+              reviewer: this.reviewer,
+            }
+            try {
+              const res = await fetch(APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              })
+              const json = await res.json()
+              if (json && json.ok) {
+                alert('Submitted to Google Sheets.')
+              } else {
+                throw new Error(
+                  json && json.error ? json.error : 'Unknown error'
+                )
+              }
+            } catch (e) {
+              alert('Submission failed: ' + e.message)
+            }
+          },
+          downloadJSON() {
+            const blob = new Blob([JSON.stringify(this.form, null, 2)], {
+              type: 'application/json',
+            })
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = `${(this.form.student_name || 'resume-review').replace(
+              /\s+/g,
+              '_'
+            )}.json`
+            a.click()
+            URL.revokeObjectURL(url)
+          },
+          resetForm() {
+            if (confirm('Clear all fields and start over?')) {
+              this.form = emptyForm()
+              this.validationErrors = {}
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+          },
+        },
+      })
+
+      app.mount('#app')
+    </script>
+  </body>
+</html>
