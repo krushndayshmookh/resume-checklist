@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Resume Upload - Resume Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --fg: #111;
+        --muted: #666;
+        --primary: #0f62fe;
+        --border: #ddd;
+        --card: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      .container {
+        max-width: 980px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        margin: 12px 0;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      input[type='text'],
+      input[type='email'],
+      input[type='password'],
+      input[type='file'] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+      }
+      input[type='file'] {
+        padding: 8px 12px;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      button.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .section-title {
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      .validation-error {
+        color: #b00020;
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 8px;
+        background: #ffeaea;
+        border-radius: 6px;
+      }
+      .success {
+        color: #138a36;
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 8px;
+        background: #e6f4ea;
+        border-radius: 6px;
+      }
+      .hidden {
+        display: none;
+      }
+      .loader {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .file-info {
+        background: #f5f5f5;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-top: 8px;
+        color: var(--muted);
+      }
+      .info-box {
+        background: #f0f4ff;
+        border: 1px solid #b3c9ff;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: #004085;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>AI Resume Analyzer</h1>
+        <div class="hint">Powered by GPT-5</div>
+      </header>
+
+      <div class="card">
+        <h2 class="section-title">Upload Resume for AI Analysis</h2>
+
+        <div class="info-box">
+          🤖 Upload a resume PDF to get AI-powered initial feedback. The AI will
+          analyze the resume and populate the review form with preliminary
+          assessments. You can then review and adjust the feedback before
+          submitting.
+        </div>
+
+        <div id="error-message" class="validation-error hidden"></div>
+        <div id="success-message" class="success hidden"></div>
+
+        <div class="field">
+          <label for="passkey">Access Passkey *</label>
+          <input
+            type="password"
+            id="passkey"
+            placeholder="Enter your passkey"
+            autocomplete="new-password"
+            required />
+        </div>
+
+        <div class="field">
+          <label for="reviewer-name">Your Name (Reviewer) *</label>
+          <input
+            type="text"
+            id="reviewer-name"
+            placeholder="e.g., John Doe"
+            autocomplete="off"
+            required />
+        </div>
+
+        <div class="field">
+          <label for="student-name">Student Name</label>
+          <input
+            type="text"
+            id="student-name"
+            placeholder="e.g., Jane Smith"
+            autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="resume-file">Resume File (PDF) *</label>
+          <input
+            type="file"
+            id="resume-file"
+            accept=".pdf"
+            onchange="handleFileSelect()"
+            required />
+          <div class="hint">Maximum file size: 5MB</div>
+        </div>
+
+        <div id="file-info" class="file-info hidden"></div>
+
+        <div class="actions">
+          <button
+            id="upload-btn"
+            class="primary"
+            onclick="uploadResume()"
+            disabled>
+            <span id="btn-text">Upload & Analyze Resume</span>
+          </button>
+          <button onclick="window.location.href='index.html'">
+            Manual Review
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedFile = null
+
+      // Restore saved passkey and reviewer name on page load
+      window.addEventListener('DOMContentLoaded', () => {
+        const savedPasskey = localStorage.getItem('rrc_upload_passkey')
+        const savedReviewer = localStorage.getItem('rrc_reviewer')
+
+        if (savedPasskey) {
+          document.getElementById('passkey').value = savedPasskey
+        }
+
+        if (savedReviewer) {
+          document.getElementById('reviewer-name').value = savedReviewer
+        }
+      })
+
+      function handleFileSelect() {
+        const fileInput = document.getElementById('resume-file')
+        const uploadBtn = document.getElementById('upload-btn')
+        const fileInfo = document.getElementById('file-info')
+
+        if (fileInput.files.length > 0) {
+          selectedFile = fileInput.files[0]
+
+          // Validate file
+          if (selectedFile.type !== 'application/pdf') {
+            showError('Please select a PDF file')
+            selectedFile = null
+            uploadBtn.disabled = true
+            return
+          }
+
+          if (selectedFile.size > 5 * 1024 * 1024) {
+            showError('File size must be less than 5MB')
+            selectedFile = null
+            uploadBtn.disabled = true
+            return
+          }
+
+          // Show file info
+          const sizeKB = (selectedFile.size / 1024).toFixed(2)
+          fileInfo.textContent = `📄 Selected: ${selectedFile.name} (${sizeKB} KB)`
+          fileInfo.classList.remove('hidden')
+
+          uploadBtn.disabled = false
+          hideError()
+        } else {
+          selectedFile = null
+          uploadBtn.disabled = true
+          fileInfo.classList.add('hidden')
+        }
+      }
+
+      async function uploadResume() {
+        if (!selectedFile) {
+          showError('Please select a PDF file')
+          return
+        }
+
+        const passkey = document.getElementById('passkey').value.trim()
+        if (!passkey) {
+          showError('Please enter your passkey')
+          return
+        }
+
+        const reviewerName = document
+          .getElementById('reviewer-name')
+          .value.trim()
+        if (!reviewerName) {
+          showError('Please enter your name')
+          return
+        }
+
+        const uploadBtn = document.getElementById('upload-btn')
+        const btnText = document.getElementById('btn-text')
+
+        // Disable button and show loading
+        uploadBtn.disabled = true
+        btnText.innerHTML =
+          '<span class="loader"></span>Analyzing resume... This may take 30-60 seconds'
+
+        hideError()
+        hideSuccess()
+
+        // Save passkey and reviewer name to localStorage
+        localStorage.setItem('rrc_upload_passkey', passkey)
+        localStorage.setItem('rrc_reviewer', reviewerName)
+
+        try {
+          // Create FormData
+          const formData = new FormData()
+          formData.append('resume', selectedFile)
+          formData.append('passkey', passkey)
+          formData.append('reviewer_name', reviewerName)
+          formData.append(
+            'student_name',
+            document.getElementById('student-name').value.trim()
+          )
+
+          // Call API
+          const response = await fetch('/api/analyze-resume', {
+            method: 'POST',
+            body: formData,
+          })
+
+          if (!response.ok) {
+            const error = await response.json()
+
+            // Use the user-friendly message from the API if available
+            const errorMessage =
+              error.message || error.error || 'Failed to analyze resume'
+
+            // Add helpful context based on error type
+            if (error.errorType === 'INVALID_PASSKEY') {
+              throw new Error('❌ ' + errorMessage)
+            } else if (error.errorType === 'PDF_EXTRACTION_FAILED') {
+              throw new Error('📄 ' + errorMessage)
+            } else if (error.errorType === 'INSUFFICIENT_TEXT') {
+              throw new Error('📄 ' + errorMessage)
+            } else if (error.errorType === 'AI_CONFIG_ERROR') {
+              throw new Error('⚙️ ' + errorMessage)
+            } else if (error.errorType === 'RATE_LIMIT') {
+              throw new Error('⏱️ ' + errorMessage)
+            } else {
+              throw new Error(errorMessage)
+            }
+          }
+
+          const result = await response.json()
+
+          // Store data in localStorage
+          localStorage.setItem('rrc_form', JSON.stringify(result.form))
+          localStorage.setItem('rrc_reviewer', reviewerName)
+          localStorage.setItem('rrc_schema_version', '2')
+
+          // Show success message
+          showSuccess(
+            '✅ Resume analyzed successfully! Redirecting to review form...'
+          )
+
+          // Redirect after 2 seconds
+          setTimeout(() => {
+            window.location.href = '/index.html'
+          }, 2000)
+        } catch (error) {
+          console.error('Upload error:', error)
+
+          // Check for network errors
+          if (error.message === 'Failed to fetch') {
+            showError(
+              'Network error. Please check your internet connection and try again.'
+            )
+          } else {
+            showError(
+              error.message || 'Failed to analyze resume. Please try again.'
+            )
+          }
+
+          uploadBtn.disabled = false
+          btnText.innerHTML = 'Upload & Analyze Resume'
+        }
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById('error-message')
+        errorDiv.textContent = '❌ ' + message
+        errorDiv.classList.remove('hidden')
+      }
+
+      function hideError() {
+        const errorDiv = document.getElementById('error-message')
+        errorDiv.classList.add('hidden')
+      }
+
+      function showSuccess(message) {
+        const successDiv = document.getElementById('success-message')
+        successDiv.textContent = message
+        successDiv.classList.remove('hidden')
+      }
+
+      function hideSuccess() {
+        const successDiv = document.getElementById('success-message')
+        successDiv.classList.add('hidden')
+      }
+
+      // Allow Enter key to submit
+      document.addEventListener('keypress', (e) => {
+        if (
+          e.key === 'Enter' &&
+          !document.getElementById('upload-btn').disabled
+        ) {
+          uploadResume()
+        }
+      })
+    </script>
+  </body>
+</html>

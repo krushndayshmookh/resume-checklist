@@ -296,8 +296,15 @@
     <div id="app" class="container">
       <header>
         <h1>Resume Review Checklist</h1>
-        <div class="hint">
-          Complete all items in each section • Autosaves locally
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <div class="hint">
+            Complete all items in each section • Autosaves locally
+          </div>
+          <button 
+            onclick="window.location.href='upload.html'"
+            style="padding: 6px 12px; border-radius: 6px; font-size: 13px; white-space: nowrap;">
+            AI Review
+          </button>
         </div>
       </header>
 
@@ -942,7 +949,7 @@
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script>
       const API_ENDPOINT =
-        'https://resume-checklist.vercel.app/api/sheets-append'
+        '/api/sheets-append'
 
       // Schema version - increment when data structure changes
       const SCHEMA_VERSION = 2
