@@ -529,27 +529,77 @@
       </section>
 
       <!-- Projects -->
-      <div class="field-group">
-  <label for="project_count">Number of Projects</label>
-  <input type="number" min="0" v-model.number="form.projects.project_count" placeholder="e.g. 3" />
-</div>
-
-<div class="field-group">
-  <label>Type of Projects</label>
-  <div class="checkbox-group">
-    <label><input type="checkbox" value="frontend" v-model="form.projects.project_types" /> Frontend</label>
-    <label><input type="checkbox" value="backend" v-model="form.projects.project_types" /> Backend</label>
-    <label><input type="checkbox" value="full stack" v-model="form.projects.project_types" /> Full Stack</label>
-    <label><input type="checkbox" value="AI" v-model="form.projects.project_types" /> AI</label>
-    <label><input type="checkbox" value="robotics" v-model="form.projects.project_types" /> Robotics</label>
-    <label><input type="checkbox" value="other" v-model="form.projects.project_types" /> Other</label>
-  </div>
-</div>
-      
       <section class="card" :class="getSectionClass(5)">
         <div class="section-header">
           <h2 class="section-title">Projects</h2>
           <span class="step-indicator">Section 6</span>
+        </div>
+        <div class="field">
+          <label>Number of Projects</label>
+          <input
+            v-model.number="form.projects.project_count"
+            type="number"
+            min="0"
+            placeholder="e.g., 3" />
+        </div>
+        <div class="field">
+          <label>Project Categories (select all that apply)</label>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px;">
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.frontend" />
+              Frontend
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.backend" />
+              Backend
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.fullstack" />
+              Full Stack
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.aiml" />
+              AI/ML
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.iot" />
+              IoT
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.robotics" />
+              Robotics
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.research" />
+              Research
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+              <input type="checkbox" v-model="form.projects.categories.others" />
+              Others
+            </label>
+          </div>
+        </div>
+        <div class="field" v-if="form.projects.categories.others">
+          <label>Other Categories Details</label>
+          <textarea
+            v-model="form.projects.others_details"
+            placeholder="Specify other project categories..."
+            rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Are projects AI generated?</label>
+          <div class="button-group">
+            <button
+              :class="{ selected: form.projects.ai_generated === false }"
+              @click="form.projects.ai_generated = false">
+              No
+            </button>
+            <button
+              :class="{ selected: form.projects.ai_generated === true }"
+              @click="form.projects.ai_generated = true">
+              Yes
+            </button>
+          </div>
         </div>
         <div class="grid">
           <div class="check-row">
@@ -928,19 +978,24 @@
           section_comment: '',
         },
         projects: {
+          project_count: null,
+          categories: {
+            frontend: false,
+            backend: false,
+            fullstack: false,
+            aiml: false,
+            iot: false,
+            robotics: false,
+            research: false,
+            others: false,
+          },
+          others_details: '',
+          ai_generated: null,
           has_project_names: false,
           sequence_score: null,
           has_links: false,
           strong_verbs: false,
           section_comment: '',
-
-  project_count: 0,
-  project_types: [],
-  has_code_link: false,
-  has_description: false,
-  project_relevance: 3,
-          project_type_summary: '',
-
         },
         experience: {
           has_basic_details: false,
@@ -1008,15 +1063,6 @@
             }
             return max
           },
-          projectTypeSummary() {
-  if (!this.form.projects.project_types?.length) return ''
-  const counts = {}
-  this.form.projects.project_types.forEach(type => {
-    counts[type] = (counts[type] || 0) + 1
-  })
-  return Object.entries(counts).map(([k, v]) => `${k}:${v}`).join(', ')
-},
-
         },
         created() {
           // restore saved form
@@ -1110,7 +1156,24 @@
                   : !!this.form.skills.section_comment.trim()
 
               case 'projects':
+                const hasAtLeastOneCategory = !!(
+                  this.form.projects.categories.frontend ||
+                  this.form.projects.categories.backend ||
+                  this.form.projects.categories.fullstack ||
+                  this.form.projects.categories.aiml ||
+                  this.form.projects.categories.iot ||
+                  this.form.projects.categories.robotics ||
+                  this.form.projects.categories.research ||
+                  this.form.projects.categories.others
+                )
+                const othersValid = this.form.projects.categories.others
+                  ? !!this.form.projects.others_details.trim()
+                  : true
                 const projectsFieldsComplete = !!(
+                  this.form.projects.project_count !== null &&
+                  hasAtLeastOneCategory &&
+                  othersValid &&
+                  this.form.projects.ai_generated !== null &&
                   this.form.projects.has_project_names &&
                   this.form.projects.sequence_score !== null &&
                   this.form.projects.has_links &&
@@ -1207,7 +1270,24 @@
                 )
 
               case 'projects':
+                const hasAtLeastOneCat = !!(
+                  this.form.projects.categories.frontend ||
+                  this.form.projects.categories.backend ||
+                  this.form.projects.categories.fullstack ||
+                  this.form.projects.categories.aiml ||
+                  this.form.projects.categories.iot ||
+                  this.form.projects.categories.robotics ||
+                  this.form.projects.categories.research ||
+                  this.form.projects.categories.others
+                )
+                const othersCheck = this.form.projects.categories.others
+                  ? !this.form.projects.others_details.trim()
+                  : false
                 return (
+                  this.form.projects.project_count === null ||
+                  !hasAtLeastOneCat ||
+                  othersCheck ||
+                  this.form.projects.ai_generated === null ||
                   !this.form.projects.has_project_names ||
                   this.form.projects.sequence_score === null ||
                   !this.form.projects.has_links ||
@@ -1250,11 +1330,9 @@
             if (this.submitting) return
 
             this.submitting = true
-             this.form.projects.project_type_summary = this.projectTypeSummary
             const payload = {
               ...this.form,
               reviewer: this.reviewer,
-              
             }
             try {
               const res = await fetch(API_ENDPOINT, {
