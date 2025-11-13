@@ -944,6 +944,26 @@
       const API_ENDPOINT =
         'https://resume-checklist.vercel.app/api/sheets-append'
 
+      // Schema version - increment when data structure changes
+      const SCHEMA_VERSION = 2
+
+      // Deep merge utility to merge saved data with current schema
+      const deepMerge = (target, source) => {
+        const output = { ...target }
+        for (const key in source) {
+          if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+            if (target[key] && typeof target[key] === 'object') {
+              output[key] = deepMerge(target[key], source[key])
+            } else {
+              output[key] = source[key]
+            }
+          } else {
+            output[key] = source[key]
+          }
+        }
+        return output
+      }
+
       const emptyForm = () => ({
         student_name: '',
         student_email: '',
@@ -1065,16 +1085,40 @@
           },
         },
         created() {
-          // restore saved form
+          // restore saved form with schema validation
           const saved = localStorage.getItem('rrc_form')
+          const savedVersion = localStorage.getItem('rrc_schema_version')
+          
           if (saved) {
             try {
-              this.form = JSON.parse(saved)
-            } catch (e) {}
+              const parsedData = JSON.parse(saved)
+              const currentVersion = parseInt(savedVersion) || 1
+              
+              if (currentVersion < SCHEMA_VERSION) {
+                // Schema has changed - merge old data with new structure
+                console.log(`Migrating data from version ${currentVersion} to ${SCHEMA_VERSION}`)
+                this.form = deepMerge(emptyForm(), parsedData)
+                // Save migrated data immediately
+                localStorage.setItem('rrc_form', JSON.stringify(this.form))
+                localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
+              } else {
+                // Same version - merge anyway to add any new fields
+                this.form = deepMerge(emptyForm(), parsedData)
+              }
+            } catch (e) {
+              console.error('Failed to load saved data:', e)
+              // If parsing fails, reset to empty form
+              this.form = emptyForm()
+            }
+          } else {
+            // First time - set schema version
+            localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
           }
+          
           // autosave
           this.autosave = setInterval(() => {
             localStorage.setItem('rrc_form', JSON.stringify(this.form))
+            localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
             localStorage.setItem('rrc_reviewer', this.reviewer || '')
           }, 2000)
         },
