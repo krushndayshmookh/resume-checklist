@@ -4,7 +4,7 @@
 import { openai } from '@ai-sdk/openai'
 import { generateObject } from 'ai'
 import { z } from 'zod'
-import { PDFExtract } from 'pdf.js-extract'
+import pdf from 'pdf-parse/lib/pdf-parse.js'
 
 const PASSKEY = process.env.RESUME_PASSKEY || 'resume2025'
 
@@ -64,24 +64,12 @@ async function parseFormData(req) {
 
 // Extract text from PDF
 async function extractPDFText(buffer) {
-  const pdfExtract = new PDFExtract()
-  const options = {}
-  
-  return new Promise((resolve, reject) => {
-    pdfExtract.extractBuffer(buffer, options, (err, data) => {
-      if (err) return reject(err)
-      
-      let text = ''
-      data.pages.forEach((page) => {
-        page.content.forEach((item) => {
-          text += item.str + ' '
-        })
-        text += '\n'
-      })
-      
-      resolve(text.trim())
-    })
-  })
+  try {
+    const data = await pdf(buffer)
+    return data.text.trim()
+  } catch (error) {
+    throw new Error(`PDF parsing failed: ${error.message}`)
+  }
 }
 
 // Analyze resume with GPT
