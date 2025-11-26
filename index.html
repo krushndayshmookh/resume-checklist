@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <style>
       :root {
         --bg: #fafafa;
@@ -75,10 +76,10 @@
       .field {
         margin-bottom: 12px;
       }
-      input[type='text'],
-      input[type='email'],
-      input[type='url'],
-      input[type='number'],
+      input[type="text"],
+      input[type="email"],
+      input[type="url"],
+      input[type="number"],
       textarea,
       select {
         width: 100%;
@@ -91,7 +92,7 @@
         resize: vertical;
         min-height: 76px;
       }
-      input[type='checkbox'] {
+      input[type="checkbox"] {
         width: 20px;
         height: 20px;
         cursor: pointer;
@@ -296,13 +297,19 @@
     <div id="app" class="container">
       <header>
         <h1>Resume Review Checklist</h1>
-        <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="display: flex; gap: 12px; align-items: center">
           <div class="hint">
             Complete all items in each section • Autosaves locally
           </div>
-          <button 
+          <button
             onclick="window.location.href='upload.html'"
-            style="padding: 6px 12px; border-radius: 6px; font-size: 13px; white-space: nowrap;">
+            style="
+              padding: 6px 12px;
+              border-radius: 6px;
+              font-size: 13px;
+              white-space: nowrap;
+            "
+          >
             AI Review
           </button>
         </div>
@@ -320,14 +327,16 @@
             ><input
               v-model="form.student_name"
               type="text"
-              placeholder="e.g., Aarav Sharma" />
+              placeholder="e.g., Aarav Sharma"
+            />
           </div>
           <div class="field">
             <label>Student Email</label
             ><input
               v-model="form.student_email"
               type="email"
-              placeholder="name@example.com" />
+              placeholder="name@example.com"
+            />
           </div>
         </div>
         <div class="row">
@@ -374,25 +383,29 @@
             <div>Student has added GitHub link</div>
             <input
               type="checkbox"
-              v-model="form.presentation.has_github_link" />
+              v-model="form.presentation.has_github_link"
+            />
           </div>
           <div class="check-row">
             <div>Student has added LeetCode/Codeforces link</div>
             <input
               type="checkbox"
-              v-model="form.presentation.has_coding_platform_link" />
+              v-model="form.presentation.has_coding_platform_link"
+            />
           </div>
           <div class="check-row">
             <div>Student has added LinkedIn link</div>
             <input
               type="checkbox"
-              v-model="form.presentation.has_linkedin_link" />
+              v-model="form.presentation.has_linkedin_link"
+            />
           </div>
           <div class="check-row">
             <div>Student has added Personal Website/Portfolio link</div>
             <input
               type="checkbox"
-              v-model="form.presentation.has_portfolio_link" />
+              v-model="form.presentation.has_portfolio_link"
+            />
           </div>
         </div>
         <div
@@ -400,11 +413,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.presentation.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.presentation.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -423,7 +438,8 @@
                 v-for="n in 5"
                 :key="'summary-'+n"
                 :class="{ selected: form.summary.concise_score === n }"
-                @click="form.summary.concise_score = n">
+                @click="form.summary.concise_score = n"
+              >
                 {{ n }}
               </button>
             </div>
@@ -440,11 +456,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.summary.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.summary.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -469,11 +487,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.education.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.education.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -491,7 +511,8 @@
             </div>
             <input
               type="checkbox"
-              v-model="form.skills.has_programming_languages" />
+              v-model="form.skills.has_programming_languages"
+            />
           </div>
           <div class="check-row">
             <div>
@@ -500,13 +521,15 @@
             </div>
             <input
               type="checkbox"
-              v-model="form.skills.has_software_packages" />
+              v-model="form.skills.has_software_packages"
+            />
           </div>
           <div class="check-row">
             <div>Mentions problem solving and data structures</div>
             <input
               type="checkbox"
-              v-model="form.skills.has_problem_solving_ds" />
+              v-model="form.skills.has_problem_solving_ds"
+            />
           </div>
           <div class="check-row">
             <div>Has added soft skills</div>
@@ -527,11 +550,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.skills.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.skills.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -547,41 +572,123 @@
             v-model.number="form.projects.project_count"
             type="number"
             min="0"
-            placeholder="e.g., 3" />
+            placeholder="e.g., 3"
+          />
         </div>
         <div class="field">
           <label>Project Categories (select all that apply)</label>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px;">
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.frontend" />
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 8px;
+              margin-top: 8px;
+            "
+          >
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.frontend"
+              />
               Frontend
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.backend" />
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.backend"
+              />
               Backend
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.fullstack" />
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.fullstack"
+              />
               Full Stack
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
               <input type="checkbox" v-model="form.projects.categories.aiml" />
               AI/ML
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
               <input type="checkbox" v-model="form.projects.categories.iot" />
               IoT
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.robotics" />
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.robotics"
+              />
               Robotics
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.research" />
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.research"
+              />
               Research
             </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
-              <input type="checkbox" v-model="form.projects.categories.others" />
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 400;
+              "
+            >
+              <input
+                type="checkbox"
+                v-model="form.projects.categories.others"
+              />
               Others
             </label>
           </div>
@@ -591,62 +698,74 @@
           <textarea
             v-model="form.projects.others_details"
             placeholder="Specify other project categories..."
-            rows="2"></textarea>
+            rows="2"
+          ></textarea>
         </div>
         <div class="field">
           <label>Are projects AI generated?</label>
           <div class="button-group">
             <button
               :class="{ selected: form.projects.ai_generated === false }"
-              @click="form.projects.ai_generated = false">
+              @click="form.projects.ai_generated = false"
+            >
               No
             </button>
             <button
               :class="{ selected: form.projects.ai_generated === true }"
-              @click="form.projects.ai_generated = true">
+              @click="form.projects.ai_generated = true"
+            >
               Yes
             </button>
           </div>
         </div>
         <div class="grid">
           <div class="check-row">
-            <div>Project names highlighted; tech stack shown below</div>
+            <div>Project names highlighted tech stack mentioned</div>
             <input type="checkbox" v-model="form.projects.has_project_names" />
           </div>
           <div class="check-row">
             <div>
-              Project description follows sequence:
-              <ol
+              Project description uses clear bullet points in this format:
+              <ul
                 style="
                   margin: 4px 0;
                   padding-left: 20px;
                   font-size: 13px;
                   line-height: 1.5;
-                ">
+                "
+              >
                 <li>
-                  <strong>Problem statement:</strong> What issue does this
-                  project solve?
+                  <strong>What you built:</strong>
+                  what project or feature you worked on.
                 </li>
                 <li>
-                  <strong>How it works:</strong> Brief explanation of
-                  implementation/architecture
+                  <strong>How you built it:</strong>
+                  tools, technologies, and approach you used.
                 </li>
                 <li>
-                  <strong>Key features:</strong> Main functionalities and
-                  capabilities
+                  <strong>Impact / result:</strong>
+                  what outcome or improvement it created.
                 </li>
-              </ol>
+              </ul>
+              <div class="small" style="margin-top: 4px">
+                Example:<br />
+                • Built a full-stack task manager web app using React, Node.js,
+                Express and MongoDB, which helped a 5-member team reduce manual
+                task tracking time by 40%.
+              </div>
             </div>
             <div class="button-group">
               <button
                 v-for="n in 5"
                 :key="'projects-'+n"
                 :class="{ selected: form.projects.sequence_score === n }"
-                @click="form.projects.sequence_score = n">
+                @click="form.projects.sequence_score = n"
+              >
                 {{ n }}
               </button>
             </div>
           </div>
+
           <div class="check-row">
             <div>Links provided (GitHub & demo)</div>
             <input type="checkbox" v-model="form.projects.has_links" />
@@ -661,16 +780,69 @@
             <input type="checkbox" v-model="form.projects.strong_verbs" />
           </div>
         </div>
+        <!-- ADD: Project grading rating as per the decided rubrics -->
+        <div class="field">
+          <label>Project Level Rating (1–6)</label>
+          <div class="button-group">
+            <button
+              v-for="n in 6"
+              :key="'projects-grade-'+n"
+              :class="{ selected: form.projects.grade_level === n }"
+              @click="form.projects.grade_level = n"
+            >
+              {{ n }}
+            </button>
+          </div>
+          <ul class="small" style="margin-top: 6px; padding-left: 20px">
+            <li>
+              <strong>1 – Poor:</strong>
+              Incomplete or non-functional project. Minimal effort or unclear
+              purpose.
+            </li>
+            <li>
+              <strong>2 – Basic / Minimal Viable:</strong>
+              Very basic app (e.g., simple To-Do app) with limited interactivity
+              or static data.
+            </li>
+            <li>
+              <strong>3 – Frontend (FE):</strong>
+              Functional frontend-only project using HTML/CSS/JS or a framework
+              (React, Vue, etc.); no backend or data persistence.
+            </li>
+            <li>
+              <strong>4 – Frontend + Backend (FE + BE):</strong>
+              Full working flow between frontend and backend using APIs, server
+              logic, and database connectivity, but no authentication.
+            </li>
+            <li>
+              <strong
+                >5 – Full Stack with Authentication (FE + BE + Auth):</strong
+              >
+              Complete full-stack project with authentication, authorization,
+              CRUD operations, and persistent data; demonstrates integration and
+              usability.
+            </li>
+            <li>
+              <strong>6 – Deployed Full Stack / Advanced:</strong>
+              Fully functional end-to-end solution deployed on a live platform
+              (Vercel, Render, AWS, etc.) with AI/ML, analytics, automation, or
+              advanced integrations; shows production readiness.
+            </li>
+          </ul>
+        </div>
+
         <div
           v-if="showSectionComment('projects')"
           class="section-comment"
           :class="{
           'comment-added': form.projects.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.projects.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -685,7 +857,8 @@
             <div>Company, role, duration included</div>
             <input
               type="checkbox"
-              v-model="form.experience.has_basic_details" />
+              v-model="form.experience.has_basic_details"
+            />
           </div>
           <div class="check-row">
             <div>
@@ -732,7 +905,8 @@
                 v-for="n in 5"
                 :key="'experience-'+n"
                 :class="{ selected: form.experience.description_score === n }"
-                @click="form.experience.description_score = n">
+                @click="form.experience.description_score = n"
+              >
                 {{ n }}
               </button>
             </div>
@@ -743,11 +917,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.experience.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.experience.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -777,7 +953,8 @@
             </div>
             <input
               type="checkbox"
-              v-model="form.achievements.mentions_opensource" />
+              v-model="form.achievements.mentions_opensource"
+            />
           </div>
           <div class="check-row">
             <div>
@@ -789,7 +966,8 @@
             </div>
             <input
               type="checkbox"
-              v-model="form.achievements.mentions_competitions" />
+              v-model="form.achievements.mentions_competitions"
+            />
           </div>
           <div class="check-row">
             <div>
@@ -801,7 +979,8 @@
             </div>
             <input
               type="checkbox"
-              v-model="form.achievements.mentions_volunteering" />
+              v-model="form.achievements.mentions_volunteering"
+            />
           </div>
           <div class="check-row">
             <div>
@@ -822,7 +1001,8 @@
                 v-for="n in 5"
                 :key="'achievements-'+n"
                 :class="{ selected: form.achievements.overall_score === n }"
-                @click="form.achievements.overall_score = n">
+                @click="form.achievements.overall_score = n"
+              >
                 {{ n }}
               </button>
             </div>
@@ -833,11 +1013,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.achievements.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.achievements.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -873,11 +1055,13 @@
           class="section-comment"
           :class="{
           'comment-added': form.certs.section_comment.length
-        }">
+        }"
+        >
           <label>Feedback for unchecked items or scores < 5:</label>
           <textarea
             v-model="form.certs.section_comment"
-            placeholder="Provide specific feedback and suggestions..."></textarea>
+            placeholder="Provide specific feedback and suggestions..."
+          ></textarea>
         </div>
       </section>
 
@@ -894,7 +1078,8 @@
               v-for="n in 10"
               :key="'overall-'+n"
               :class="{ selected: form.overall === n }"
-              @click="form.overall = n">
+              @click="form.overall = n"
+            >
               {{ n }}
             </button>
           </div>
@@ -905,13 +1090,15 @@
             <button
               class="button-negative"
               :class="{ selected: form.status === 'request_changes' }"
-              @click="form.status = 'request_changes'">
+              @click="form.status = 'request_changes'"
+            >
               Request Changes
             </button>
             <button
               class="button-positive"
               :class="{ selected: form.status === 'approved' }"
-              @click="form.status = 'approved'">
+              @click="form.status = 'approved'"
+            >
               Approved
             </button>
           </div>
@@ -921,7 +1108,8 @@
           <textarea
             v-model="form.comments"
             placeholder="Provide specific, actionable feedback..."
-            required></textarea>
+            required
+          ></textarea>
         </div>
       </section>
 
@@ -935,7 +1123,8 @@
           <button
             class="primary"
             @click="submitToSheets"
-            :disabled="submitting">
+            :disabled="submitting"
+          >
             <span v-if="submitting">Submitting...</span>
             <span v-else>Submit to Google Sheets</span>
           </button>
@@ -948,33 +1137,36 @@
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script>
-      const API_ENDPOINT =
-        '/api/sheets-append'
+      const API_ENDPOINT = "/api/sheets-append";
 
       // Schema version - increment when data structure changes
-      const SCHEMA_VERSION = 2
+      const SCHEMA_VERSION = 2;
 
       // Deep merge utility to merge saved data with current schema
       const deepMerge = (target, source) => {
-        const output = { ...target }
+        const output = { ...target };
         for (const key in source) {
-          if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-            if (target[key] && typeof target[key] === 'object') {
-              output[key] = deepMerge(target[key], source[key])
+          if (
+            source[key] &&
+            typeof source[key] === "object" &&
+            !Array.isArray(source[key])
+          ) {
+            if (target[key] && typeof target[key] === "object") {
+              output[key] = deepMerge(target[key], source[key]);
             } else {
-              output[key] = source[key]
+              output[key] = source[key];
             }
           } else {
-            output[key] = source[key]
+            output[key] = source[key];
           }
         }
-        return output
-      }
+        return output;
+      };
 
       const emptyForm = () => ({
-        student_name: '',
-        student_email: '',
-        page_count: '',
+        student_name: "",
+        student_email: "",
+        page_count: "",
         presentation: {
           no_errors: false,
           links_working: false,
@@ -984,17 +1176,17 @@
           has_coding_platform_link: false,
           has_linkedin_link: false,
           has_portfolio_link: false,
-          section_comment: '',
+          section_comment: "",
         },
         summary: {
           concise_score: null,
           problem_open_cp: false,
-          section_comment: '',
+          section_comment: "",
         },
         education: {
           highlighted: false,
           date_format: false,
-          section_comment: '',
+          section_comment: "",
         },
         skills: {
           has_programming_languages: false,
@@ -1002,7 +1194,7 @@
           has_problem_solving_ds: false,
           has_soft_skills: false,
           no_buzzwords: false,
-          section_comment: '',
+          section_comment: "",
         },
         projects: {
           project_count: null,
@@ -1016,13 +1208,14 @@
             research: false,
             others: false,
           },
-          others_details: '',
+          others_details: "",
           ai_generated: null,
           has_project_names: false,
           sequence_score: null,
           has_links: false,
           strong_verbs: false,
-          section_comment: '',
+          section_comment: "",
+          grade_level: null,
         },
         experience: {
           has_basic_details: false,
@@ -1031,7 +1224,7 @@
           has_soft_skills: false,
           strong_verbs: false,
           description_score: null,
-          section_comment: '',
+          section_comment: "",
         },
         achievements: {
           mentions_cp: false,
@@ -1040,97 +1233,108 @@
           mentions_volunteering: false,
           mentions_other: false,
           overall_score: null,
-          section_comment: '',
+          section_comment: "",
         },
         certs: {
           has_basic_info: false,
           links_work: false,
-          section_comment: '',
+          section_comment: "",
         },
         overall: null,
-        status: 'request_changes',
-        comments: '',
-      })
+        status: "request_changes",
+        comments: "",
+      });
 
       const app = Vue.createApp({
         data() {
           return {
             form: emptyForm(),
-            reviewer: localStorage.getItem('rrc_reviewer') || '',
+            reviewer: localStorage.getItem("rrc_reviewer") || "",
             currentStep: 0,
             completedSections: [],
             validationErrors: {},
             submitting: false,
             sections: [
-              'meta',
-              'presentation',
-              'summary',
-              'education',
-              'skills',
-              'projects',
-              'experience',
-              'achievements',
-              'certs',
-              'comm',
-              'submit',
+              "meta",
+              "presentation",
+              "summary",
+              "education",
+              "skills",
+              "projects",
+              "experience",
+              "achievements",
+              "certs",
+              "comm",
+              "submit",
             ],
             saving: false,
-          }
+          };
         },
         computed: {
           maxUnlockedSection() {
             // Find the highest completed section
-            let max = 0
+            let max = 0;
             for (let i = 0; i < this.sections.length - 1; i++) {
               if (this.isSectionComplete(i)) {
-                max = i + 1
+                max = i + 1;
               } else {
-                break
+                break;
               }
             }
-            return max
+            return max;
           },
         },
         created() {
           // restore saved form with schema validation
-          const saved = localStorage.getItem('rrc_form')
-          const savedVersion = localStorage.getItem('rrc_schema_version')
-          
+          const saved = localStorage.getItem("rrc_form");
+          const savedVersion = localStorage.getItem("rrc_schema_version");
+
           if (saved) {
             try {
-              const parsedData = JSON.parse(saved)
-              const currentVersion = parseInt(savedVersion) || 1
-              
+              const parsedData = JSON.parse(saved);
+              const currentVersion = parseInt(savedVersion) || 1;
+
               if (currentVersion < SCHEMA_VERSION) {
                 // Schema has changed - merge old data with new structure
-                console.log(`Migrating data from version ${currentVersion} to ${SCHEMA_VERSION}`)
-                this.form = deepMerge(emptyForm(), parsedData)
+                console.log(
+                  `Migrating data from version ${currentVersion} to ${SCHEMA_VERSION}`
+                );
+                this.form = deepMerge(emptyForm(), parsedData);
                 // Save migrated data immediately
-                localStorage.setItem('rrc_form', JSON.stringify(this.form))
-                localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
+                localStorage.setItem("rrc_form", JSON.stringify(this.form));
+                localStorage.setItem(
+                  "rrc_schema_version",
+                  SCHEMA_VERSION.toString()
+                );
               } else {
                 // Same version - merge anyway to add any new fields
-                this.form = deepMerge(emptyForm(), parsedData)
+                this.form = deepMerge(emptyForm(), parsedData);
               }
             } catch (e) {
-              console.error('Failed to load saved data:', e)
+              console.error("Failed to load saved data:", e);
               // If parsing fails, reset to empty form
-              this.form = emptyForm()
+              this.form = emptyForm();
             }
           } else {
             // First time - set schema version
-            localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
+            localStorage.setItem(
+              "rrc_schema_version",
+              SCHEMA_VERSION.toString()
+            );
           }
-          
+
           // autosave
           this.autosave = setInterval(() => {
-            localStorage.setItem('rrc_form', JSON.stringify(this.form))
-            localStorage.setItem('rrc_schema_version', SCHEMA_VERSION.toString())
-            localStorage.setItem('rrc_reviewer', this.reviewer || '')
-          }, 2000)
+            localStorage.setItem("rrc_form", JSON.stringify(this.form));
+            localStorage.setItem(
+              "rrc_schema_version",
+              SCHEMA_VERSION.toString()
+            );
+            localStorage.setItem("rrc_reviewer", this.reviewer || "");
+          }, 2000);
         },
         unmounted() {
-          clearInterval(this.autosave)
+          clearInterval(this.autosave);
         },
         methods: {
           getSectionClass(sectionIndex) {
@@ -1138,26 +1342,26 @@
             // Future sections are locked
             if (sectionIndex <= this.maxUnlockedSection) {
               if (this.isSectionComplete(sectionIndex)) {
-                return 'section-complete' // Completed
+                return "section-complete"; // Completed
               }
-              return '' // Unlocked
+              return ""; // Unlocked
             }
-            return 'section-locked' // Locked
+            return "section-locked"; // Locked
           },
 
           isSectionComplete(sectionIndex) {
-            const sectionName = this.sections[sectionIndex]
+            const sectionName = this.sections[sectionIndex];
 
             switch (sectionName) {
-              case 'meta':
+              case "meta":
                 return !!(
                   this.form.student_name.trim() &&
                   this.form.student_email.trim() &&
                   this.reviewer.trim() &&
                   this.form.page_count
-                )
+                );
 
-              case 'presentation':
+              case "presentation":
                 const presentationFieldsComplete = !!(
                   this.form.presentation.no_errors &&
                   this.form.presentation.links_working &&
@@ -1167,46 +1371,46 @@
                   this.form.presentation.has_coding_platform_link &&
                   this.form.presentation.has_linkedin_link &&
                   this.form.presentation.has_portfolio_link
-                )
+                );
 
                 return presentationFieldsComplete
                   ? presentationFieldsComplete
-                  : !!this.form.presentation.section_comment.trim()
+                  : !!this.form.presentation.section_comment.trim();
 
-              case 'summary':
+              case "summary":
                 const summaryFieldsComplete = !!(
                   this.form.summary.concise_score !== null &&
                   this.form.summary.problem_open_cp
-                )
+                );
 
                 return summaryFieldsComplete
                   ? summaryFieldsComplete
-                  : !!this.form.summary.section_comment.trim()
+                  : !!this.form.summary.section_comment.trim();
 
-              case 'education':
+              case "education":
                 const educationFieldsComplete = !!(
                   this.form.education.highlighted &&
                   this.form.education.date_format
-                )
+                );
 
                 return educationFieldsComplete
                   ? educationFieldsComplete
-                  : !!this.form.education.section_comment.trim()
+                  : !!this.form.education.section_comment.trim();
 
-              case 'skills':
+              case "skills":
                 const skillsFieldsComplete = !!(
                   this.form.skills.has_programming_languages &&
                   this.form.skills.has_software_packages &&
                   this.form.skills.has_problem_solving_ds &&
                   this.form.skills.has_soft_skills &&
                   this.form.skills.no_buzzwords
-                )
+                );
 
                 return skillsFieldsComplete
                   ? skillsFieldsComplete
-                  : !!this.form.skills.section_comment.trim()
+                  : !!this.form.skills.section_comment.trim();
 
-              case 'projects':
+              case "projects":
                 const hasAtLeastOneCategory = !!(
                   this.form.projects.categories.frontend ||
                   this.form.projects.categories.backend ||
@@ -1216,10 +1420,10 @@
                   this.form.projects.categories.robotics ||
                   this.form.projects.categories.research ||
                   this.form.projects.categories.others
-                )
+                );
                 const othersValid = this.form.projects.categories.others
                   ? !!this.form.projects.others_details.trim()
-                  : true
+                  : true;
                 const projectsFieldsComplete = !!(
                   this.form.projects.project_count !== null &&
                   hasAtLeastOneCategory &&
@@ -1229,13 +1433,13 @@
                   this.form.projects.sequence_score !== null &&
                   this.form.projects.has_links &&
                   this.form.projects.strong_verbs
-                )
+                );
 
                 return projectsFieldsComplete
                   ? projectsFieldsComplete
-                  : !!this.form.projects.section_comment.trim()
+                  : !!this.form.projects.section_comment.trim();
 
-              case 'experience':
+              case "experience":
                 const experienceFieldsComplete = !!(
                   this.form.experience.has_basic_details &&
                   this.form.experience.has_learnings &&
@@ -1243,13 +1447,13 @@
                   this.form.experience.has_soft_skills &&
                   this.form.experience.strong_verbs &&
                   this.form.experience.description_score !== null
-                )
+                );
 
                 return experienceFieldsComplete
                   ? experienceFieldsComplete
-                  : !!this.form.experience.section_comment.trim()
+                  : !!this.form.experience.section_comment.trim();
 
-              case 'achievements':
+              case "achievements":
                 const achievementsFieldsComplete = !!(
                   this.form.achievements.mentions_cp &&
                   this.form.achievements.mentions_opensource &&
@@ -1257,36 +1461,36 @@
                   this.form.achievements.mentions_volunteering &&
                   this.form.achievements.mentions_other &&
                   this.form.achievements.overall_score !== null
-                )
+                );
 
                 return achievementsFieldsComplete
                   ? achievementsFieldsComplete
-                  : !!this.form.achievements.section_comment.trim()
+                  : !!this.form.achievements.section_comment.trim();
 
-              case 'certs':
+              case "certs":
                 const certsFieldsComplete = !!(
                   this.form.certs.has_basic_info && this.form.certs.links_work
-                )
+                );
 
                 return certsFieldsComplete
                   ? certsFieldsComplete
-                  : !!this.form.certs.section_comment.trim()
+                  : !!this.form.certs.section_comment.trim();
 
-              case 'comm':
+              case "comm":
                 return !!(
                   this.form.overall !== null &&
                   this.form.status &&
                   this.form.comments.trim()
-                )
+                );
             }
 
-            return false
+            return false;
           },
 
           showSectionComment(sectionName) {
             // Show comment field if any checkbox is unchecked OR any score is missing OR any score < 5
             switch (sectionName) {
-              case 'presentation':
+              case "presentation":
                 return (
                   !this.form.presentation.no_errors ||
                   !this.form.presentation.links_working ||
@@ -1296,31 +1500,31 @@
                   !this.form.presentation.has_coding_platform_link ||
                   !this.form.presentation.has_linkedin_link ||
                   !this.form.presentation.has_portfolio_link
-                )
+                );
 
-              case 'summary':
+              case "summary":
                 return (
                   this.form.summary.concise_score === null ||
                   !this.form.summary.problem_open_cp ||
                   this.form.summary.concise_score < 5
-                )
+                );
 
-              case 'education':
+              case "education":
                 return (
                   !this.form.education.highlighted ||
                   !this.form.education.date_format
-                )
+                );
 
-              case 'skills':
+              case "skills":
                 return (
                   !this.form.skills.has_programming_languages ||
                   !this.form.skills.has_software_packages ||
                   !this.form.skills.has_problem_solving_ds ||
                   !this.form.skills.has_soft_skills ||
                   !this.form.skills.no_buzzwords
-                )
+                );
 
-              case 'projects':
+              case "projects":
                 const hasAtLeastOneCat = !!(
                   this.form.projects.categories.frontend ||
                   this.form.projects.categories.backend ||
@@ -1330,10 +1534,10 @@
                   this.form.projects.categories.robotics ||
                   this.form.projects.categories.research ||
                   this.form.projects.categories.others
-                )
+                );
                 const othersCheck = this.form.projects.categories.others
                   ? !this.form.projects.others_details.trim()
-                  : false
+                  : false;
                 return (
                   this.form.projects.project_count === null ||
                   !hasAtLeastOneCat ||
@@ -1344,9 +1548,9 @@
                   !this.form.projects.has_links ||
                   !this.form.projects.strong_verbs ||
                   this.form.projects.sequence_score < 5
-                )
+                );
 
-              case 'experience':
+              case "experience":
                 return (
                   !this.form.experience.has_basic_details ||
                   !this.form.experience.has_learnings ||
@@ -1355,9 +1559,9 @@
                   !this.form.experience.strong_verbs ||
                   this.form.experience.description_score === null ||
                   this.form.experience.description_score < 5
-                )
+                );
 
-              case 'achievements':
+              case "achievements":
                 return (
                   !this.form.achievements.mentions_cp ||
                   !this.form.achievements.mentions_opensource ||
@@ -1366,70 +1570,70 @@
                   !this.form.achievements.mentions_other ||
                   this.form.achievements.overall_score === null ||
                   this.form.achievements.overall_score < 5
-                )
+                );
 
-              case 'certs':
+              case "certs":
                 return (
                   !this.form.certs.has_basic_info || !this.form.certs.links_work
-                )
+                );
             }
 
-            return false
+            return false;
           },
 
           async submitToSheets() {
-            if (this.submitting) return
+            if (this.submitting) return;
 
-            this.submitting = true
+            this.submitting = true;
             const payload = {
               ...this.form,
               reviewer: this.reviewer,
-            }
+            };
             try {
               const res = await fetch(API_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
-              })
-              const json = await res.json()
+              });
+              const json = await res.json();
               if (json && json.ok) {
-                alert('Submitted to Google Sheets.')
+                alert("Submitted to Google Sheets.");
               } else {
                 throw new Error(
-                  json && json.error ? json.error : 'Unknown error'
-                )
+                  json && json.error ? json.error : "Unknown error"
+                );
               }
             } catch (e) {
-              alert('Submission failed: ' + e.message)
+              alert("Submission failed: " + e.message);
             } finally {
-              this.submitting = false
+              this.submitting = false;
             }
           },
           downloadJSON() {
             const blob = new Blob([JSON.stringify(this.form, null, 2)], {
-              type: 'application/json',
-            })
-            const url = URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = `${(this.form.student_name || 'resume-review').replace(
+              type: "application/json",
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${(this.form.student_name || "resume-review").replace(
               /\s+/g,
-              '_'
-            )}.json`
-            a.click()
-            URL.revokeObjectURL(url)
+              "_"
+            )}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
           },
           resetForm() {
-            if (confirm('Clear all fields and start over?')) {
-              this.form = emptyForm()
-              this.validationErrors = {}
-              window.scrollTo({ top: 0, behavior: 'smooth' })
+            if (confirm("Clear all fields and start over?")) {
+              this.form = emptyForm();
+              this.validationErrors = {};
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }
           },
         },
-      })
+      });
 
-      app.mount('#app')
+      app.mount("#app");
     </script>
   </body>
 </html>
